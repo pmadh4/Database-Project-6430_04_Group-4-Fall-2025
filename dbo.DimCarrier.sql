@@ -1,0 +1,21 @@
+USE [PortAuthorityDW]
+GO
+
+/****** Object:  Table [dbo].[DimCarrier]    Script Date: 14-12-2025 22:15:48 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[DimCarrier](
+	[CarrierKey] [int] IDENTITY(1,1) NOT NULL,
+	[Carrier] [varchar](100) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[CarrierKey] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
