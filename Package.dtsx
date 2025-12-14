@@ -1,0 +1,2574 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/13/2025 10:39:17 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="HP-GAMING-PAVIL"
+  DTS:CreatorName="HP-GAMING-PAVIL\Aadi"
+  DTS:DTSID="{C2651155-EA70-465C-A09B-38510CA490CA}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="16393"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{7E67BAB3-C698-493F-8BBA-79B3D0C232FA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{FF92FF34-DD39-416E-B1E9-9499FC14A7AF}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Aadi\Downloads\Project 1_Bus Terminal Passenger Prediction Data Fall 2025.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=NO&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[HP-GAMING-PAVIL\SQLSERVER2022.PortAuthorityDW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{21940679-8ACD-4ED3-AA04-B1E0DBC0F51C}"
+      DTS:ObjectName="HP-GAMING-PAVIL\SQLSERVER2022.PortAuthorityDW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=HP-GAMING-PAVIL\SQLSERVER2022;Initial Catalog=PortAuthorityDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Package-{21940679-8ACD-4ED3-AA04-B1E0DBC0F51C}HP-GAMING-PAVIL\SQLSERVER2022.PortAuthorityDW;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{30C6D653-B60D-48A9-B19C-59CF5BC82244}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="SheetList">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B3028940-1344-4D7E-8677-23EB4857D669}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SheetName">
+      <DTS:VariableValue
+        DTS:DataType="8">'April 10-14$'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BE294DF0-E492-4934-8FB3-2B7191EBE731}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SqlGetSheets">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'TABLE'</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get sheet names"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{129A88F4-FB16-4736-AB76-E788BA3452B6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get sheet names"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{FF92FF34-DD39-416E-B1E9-9499FC14A7AF}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::SqlGetSheets"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::SheetList" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Loop sheets"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{3D178CE8-4C2B-4543-A9C3-35429FAB3B65}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Loop sheets">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{CF32559C-FD9B-4788-882C-73D625944338}"
+        DTS:ObjectName="{CF32559C-FD9B-4788-882C-73D625944338}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::SheetList" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Loop sheets\Load current sheet"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{7F060AF0-D11E-42F0-9C2A-5E5AFAD46563}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load current sheet"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Loop sheets\Load current sheet\Derived Column"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Derived Column"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Loop sheets\Load current sheet\Derived Column.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\Loop sheets\Load current sheet\Derived Column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Output].Columns[SheetName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="14"
+                          lineageId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Output].Columns[SheetName]"
+                          name="SheetName"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[SUBSTRING](@[User::SheetName],1,[LEN](@[User::SheetName]) - 1)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">SUBSTRING(@[User::SheetName],1,LEN(@[User::SheetName]) - 1)</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Output].Columns[LoadDtm]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Output].Columns[LoadDtm]"
+                          name="LoadDtm"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[GETDATE]()</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">GETDATE()</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\Loop sheets\Load current sheet\Derived Column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Loop sheets\Load current sheet\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable">User::SheetName</property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">1</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Loop sheets\Load current sheet\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F1]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F1]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F1]"
+                          name="F1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F2]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F2]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F2]"
+                          name="F2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F3]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F3]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F3]"
+                          name="F3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F4]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F4]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F4]"
+                          name="F4"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F5]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F5]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F5]"
+                          name="F5"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F6]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F6]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F6]"
+                          name="F6"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F7]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F7]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F7]"
+                          name="F7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F8]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F8]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F8]"
+                          name="F8"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F9]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F9]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F9]"
+                          name="F9"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F10]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F10]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F10]"
+                          name="F10"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F11]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F11]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F11]"
+                          name="F11"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F12]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F12]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F12]"
+                          name="F12"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F13]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F13]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F13]"
+                          name="F13"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F14]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F14]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F14]"
+                          name="F14"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F15]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F15]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F15]"
+                          name="F15"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F16]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F16]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F16]"
+                          name="F16"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F17]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F17]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F17]"
+                          name="F17"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F18]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F18]"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F18]"
+                          name="F18"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F19]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F19]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F19]"
+                          name="F19"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F1]"
+                          dataType="wstr"
+                          length="255"
+                          name="F1" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F2]"
+                          dataType="wstr"
+                          length="255"
+                          name="F2" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F3]"
+                          dataType="wstr"
+                          length="255"
+                          name="F3" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F4]"
+                          dataType="wstr"
+                          length="255"
+                          name="F4" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F5]"
+                          dataType="wstr"
+                          length="255"
+                          name="F5" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F6]"
+                          dataType="wstr"
+                          length="255"
+                          name="F6" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F7]"
+                          dataType="wstr"
+                          length="255"
+                          name="F7" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F8]"
+                          dataType="wstr"
+                          length="255"
+                          name="F8" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F9]"
+                          dataType="r8"
+                          name="F9" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F10]"
+                          dataType="wstr"
+                          length="255"
+                          name="F10" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F11]"
+                          dataType="wstr"
+                          length="255"
+                          name="F11" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F12]"
+                          dataType="wstr"
+                          length="255"
+                          name="F12" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F13]"
+                          dataType="wstr"
+                          length="255"
+                          name="F13" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F14]"
+                          dataType="wstr"
+                          length="255"
+                          name="F14" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F15]"
+                          dataType="wstr"
+                          length="255"
+                          name="F15" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F16]"
+                          dataType="wstr"
+                          length="255"
+                          name="F16" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F17]"
+                          dataType="r8"
+                          name="F17" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F18]"
+                          dataType="wstr"
+                          length="255"
+                          name="F18" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].ExternalColumns[F19]"
+                          dataType="r8"
+                          name="F19" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F1]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F1]"
+                          name="F1" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F2]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F2]"
+                          name="F2" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F3]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F3]"
+                          name="F3" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F4]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F4]"
+                          name="F4" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F5]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F5]"
+                          name="F5" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F6]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F6]"
+                          name="F6" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F7]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F7]"
+                          name="F7" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F8]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F8]"
+                          name="F8" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F9]"
+                          dataType="r8"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F9]"
+                          name="F9" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F10]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F10]"
+                          name="F10" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F11]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F11]"
+                          name="F11" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F12]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F12]"
+                          name="F12" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F13]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F13]"
+                          name="F13" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F14]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F14]"
+                          name="F14" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F15]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F15]"
+                          name="F15" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F16]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F16]"
+                          name="F16" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F17]"
+                          dataType="r8"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F17]"
+                          name="F17" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F18]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F18]"
+                          name="F18" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F19]"
+                          dataType="r8"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[F19]"
+                          name="F19" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Loop sheets\Load current sheet\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[stg].[Raw_ExcelSheetDump]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[HP-GAMING-PAVIL\SQLSERVER2022.PortAuthorityDW]"
+                      connectionManagerRefId="Package.ConnectionManagers[HP-GAMING-PAVIL\SQLSERVER2022.PortAuthorityDW]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RowNum]"
+                          cachedDataType="i4"
+                          cachedName="RowNum"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RowNum]"
+                          lineageId="Package\Loop sheets\Load current sheet\Script Component.Outputs[Output 0].Columns[RowNum]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SheetName]"
+                          cachedDataType="wstr"
+                          cachedLength="14"
+                          cachedName="SheetName"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SheetName]"
+                          lineageId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Output].Columns[SheetName]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LoadDtm]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="LoadDtm"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LoadDtm]"
+                          lineageId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Output].Columns[LoadDtm]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F1"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col01]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F1]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F2"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col02]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F2]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F3]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F3"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col03]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F3]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F4]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F4"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col04]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F4]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F5]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F5"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col05]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F5]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F6]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F6"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col06]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F6]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F7]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F7"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col07]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F7]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F8]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F8"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col08]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F8]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F9]"
+                          cachedDataType="r8"
+                          cachedName="F9"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col09]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F9]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F10]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F10"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col10]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F10]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F11]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F11"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col11]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F11]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F12]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F12"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col12]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F12]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F13]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F13"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col13]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F13]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F14]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F14"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col14]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F14]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F15]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F15"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col15]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F15]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F16]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F16"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col16]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F16]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F17]"
+                          cachedDataType="r8"
+                          cachedName="F17"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col17]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F17]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F18]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F18"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col18]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F18]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[F19]"
+                          cachedDataType="r8"
+                          cachedName="F19"
+                          externalMetadataColumnId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col19]"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F19]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DumpID]"
+                          dataType="i8"
+                          name="DumpID" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SheetName]"
+                          dataType="wstr"
+                          length="128"
+                          name="SheetName" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RowNum]"
+                          dataType="i4"
+                          name="RowNum" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col01]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col01" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col02]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col02" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col03]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col03" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col04]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col04" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col05]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col05" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col06]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col06" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col07]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col07" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col08]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col08" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col09]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col09" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col10]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col10" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col11]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col11" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col12]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col12" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col13]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col13" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col14]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col14" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col15]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col15" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col16]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col16" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col17]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col17" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col18]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col18" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col19]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col19" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col20]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col20" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col21]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col21" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col22]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col22" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col23]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col23" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col24]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col24" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col25]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col25" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col26]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col26" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col27]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col27" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col28]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col28" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col29]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col29" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col30]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col30" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col31]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col31" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col32]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col32" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Col33]"
+                          dataType="wstr"
+                          length="4000"
+                          name="Col33" />
+                        <externalMetadataColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LoadDtm]"
+                          dataType="wstr"
+                          length="27"
+                          name="LoadDtm" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Loop sheets\Load current sheet\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Loop sheets\Load current sheet\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Loop sheets\Load current sheet\Script Component"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;14"
+                  description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+                  name="Script Component"
+                  version="14">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Stores the source code of the component"
+                      isArray="true"
+                      name="SourceCode"
+                      state="cdata">
+                      <arrayElements
+                        arrayElementCount="30">
+                        <arrayElement
+                          dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public override void ProcessInput(int InputID, string InputName, PipelineBuffer Buffer, OutputNameMap OutputMap)
+    {
+
+        if (InputName.Equals(@"Input 0", StringComparison.Ordinal))
+        {
+            Input0_ProcessInput(new Input0Buffer(Buffer, GetColumnIndexes(InputID), OutputMap));
+        }
+
+    }
+
+    public virtual void Input0_ProcessInput(Input0Buffer Buffer)
+    {
+        while (Buffer.NextRow())
+        {
+            Input0_ProcessInputRow(Buffer);
+        }
+    }
+
+    public virtual void Input0_ProcessInputRow(Input0Buffer Row)
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[#region Help:  Introduction to the Script Component
+/* The Script Component allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services data flow. */
+#endregion
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+#endregion
+
+/// <summary>
+/// This is the class to which to add your code.  Do not change the name, attributes, or parent
+/// of this class.
+/// </summary>
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+    // Row counter
+    private int rowCounter;
+
+    /// <summary>
+    /// Called once before rows begin to be processed.
+    /// </summary>
+    public override void PreExecute()
+    {
+        base.PreExecute();
+        rowCounter = 0;   // initialize
+    }
+
+    /// <summary>
+    /// Called after all rows have passed through.
+    /// </summary>
+    public override void PostExecute()
+    {
+        base.PostExecute();
+    }
+
+    /// <summary>
+    /// Called once for every row that passes through Input0.
+    /// </summary>
+    public override void Input0_ProcessInputRow(Input0Buffer Row)
+    {
+        rowCounter++;            // increment for each row
+        Row.RowNum = rowCounter; // write into output column RowNum (DT_I4)
+    }
+}]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class Input0Buffer: ScriptBuffer
+
+{
+    public Input0Buffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public String F1
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[0]);
+        }
+    }
+    public bool F1_IsNull
+    {
+        get
+        {
+            return IsNull(0);
+        }
+    }
+
+    public String F2
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[1]);
+        }
+    }
+    public bool F2_IsNull
+    {
+        get
+        {
+            return IsNull(1);
+        }
+    }
+
+    public String F3
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[2]);
+        }
+    }
+    public bool F3_IsNull
+    {
+        get
+        {
+            return IsNull(2);
+        }
+    }
+
+    public String F4
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[3]);
+        }
+    }
+    public bool F4_IsNull
+    {
+        get
+        {
+            return IsNull(3);
+        }
+    }
+
+    public String F5
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[4]);
+        }
+    }
+    public bool F5_IsNull
+    {
+        get
+        {
+            return IsNull(4);
+        }
+    }
+
+    public String F6
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[5]);
+        }
+    }
+    public bool F6_IsNull
+    {
+        get
+        {
+            return IsNull(5);
+        }
+    }
+
+    public String F7
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[6]);
+        }
+    }
+    public bool F7_IsNull
+    {
+        get
+        {
+            return IsNull(6);
+        }
+    }
+
+    public String F8
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[7]);
+        }
+    }
+    public bool F8_IsNull
+    {
+        get
+        {
+            return IsNull(7);
+        }
+    }
+
+    public Double F9
+    {
+        get
+        {
+            return Buffer.GetDouble(BufferColumnIndexes[8]);
+        }
+    }
+    public bool F9_IsNull
+    {
+        get
+        {
+            return IsNull(8);
+        }
+    }
+
+    public String F10
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[9]);
+        }
+    }
+    public bool F10_IsNull
+    {
+        get
+        {
+            return IsNull(9);
+        }
+    }
+
+    public String F11
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[10]);
+        }
+    }
+    public bool F11_IsNull
+    {
+        get
+        {
+            return IsNull(10);
+        }
+    }
+
+    public String F12
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[11]);
+        }
+    }
+    public bool F12_IsNull
+    {
+        get
+        {
+            return IsNull(11);
+        }
+    }
+
+    public String F13
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[12]);
+        }
+    }
+    public bool F13_IsNull
+    {
+        get
+        {
+            return IsNull(12);
+        }
+    }
+
+    public String F14
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[13]);
+        }
+    }
+    public bool F14_IsNull
+    {
+        get
+        {
+            return IsNull(13);
+        }
+    }
+
+    public String F15
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[14]);
+        }
+    }
+    public bool F15_IsNull
+    {
+        get
+        {
+            return IsNull(14);
+        }
+    }
+
+    public String F16
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[15]);
+        }
+    }
+    public bool F16_IsNull
+    {
+        get
+        {
+            return IsNull(15);
+        }
+    }
+
+    public Double F17
+    {
+        get
+        {
+            return Buffer.GetDouble(BufferColumnIndexes[16]);
+        }
+    }
+    public bool F17_IsNull
+    {
+        get
+        {
+            return IsNull(16);
+        }
+    }
+
+    public String F18
+    {
+        get
+        {
+            return Buffer.GetString(BufferColumnIndexes[17]);
+        }
+    }
+    public bool F18_IsNull
+    {
+        get
+        {
+            return IsNull(17);
+        }
+    }
+
+    public Double F19
+    {
+        get
+        {
+            return Buffer.GetDouble(BufferColumnIndexes[18]);
+        }
+    }
+    public bool F19_IsNull
+    {
+        get
+        {
+            return IsNull(18);
+        }
+    }
+
+    public Int32 RowNum
+    {
+        set
+        {
+            this[19] = value;
+        }
+    }
+    public bool RowNum_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(19);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public bool NextRow()
+    {
+        return base.NextRow();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[SC_5bbd16b210c94addbbf785cdbce25e8e.csproj]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{807BAE93-72BE-40D2-BED1-D40B763353EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SC_5bbd16b210c94addbbf785cdbce25e8e</RootNamespace>
+    <AssemblyName>SC_5bbd16b210c94addbbf785cdbce25e8e</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Compile Include="main.cs" />
+    <Compile Include="BufferWrapper.cs" />
+    <Compile Include="ComponentWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- This section defines VSTA properties that describe the host-changable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptComponent" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptComponent" GeneratedNamespace="SC_5bbd16b210c94addbbf785cdbce25e8e" IconIndex="0"></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_SC170</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_5bbd16b210c94addbbf785cdbce25e8e.Properties.Settings.get_Default():SC_5bbd16b210c94addbbf785cdbce25e8e.Properties.Sett" +
+    "ings")]
+
+namespace SC_5bbd16b210c94addbbf785cdbce25e8e.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Project]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+  <msb:PropertyGroup>
+    <msb:CodeName>SC_5bbd16b210c94addbbf785cdbce25e8e</msb:CodeName>
+    <msb:Language>msBuild</msb:Language>
+    <msb:DisplayName>SC_5bbd16b210c94addbbf785cdbce25e8e</msb:DisplayName>
+    <msb:ProjectId>{6D1334BE-F66B-4B41-AF77-9A93FA172D01}</msb:ProjectId>
+  </msb:PropertyGroup>
+  <msb:ItemGroup>
+    <msb:Project Include="SC_5bbd16b210c94addbbf785cdbce25e8e.csproj" />
+    <msb:File Include="Properties\Resources.Designer.cs" />
+    <msb:File Include="main.cs" />
+    <msb:File Include="BufferWrapper.cs" />
+    <msb:File Include="ComponentWrapper.cs" />
+    <msb:File Include="Properties\Settings.settings" />
+    <msb:File Include="Properties\AssemblyInfo.cs" />
+    <msb:File Include="Properties\Resources.resx" />
+    <msb:File Include="Properties\Settings.Designer.cs" />
+  </msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_5bbd16b210c94addbbf785cdbce25e8e")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("HP")]
+[assembly: AssemblyProduct("SC_5bbd16b210c94addbbf785cdbce25e8e")]
+[assembly: AssemblyCopyright("Copyright @ HP 2025")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_5bbd16b210c94addbbf785cdbce25e8e.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_5bbd16b210c94addbbf785cdbce25e8e.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_5bbd16b210c94addbbf785cdbce25e8e.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_5bbd16b210c94addbbf785cdbce25e8e.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_5bbd16b210c94addbbf785cdbce25e8e.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                      </arrayElements>
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Stores the binary representation of the component"
+                      isArray="true"
+                      name="BinaryCode"
+                      state="cdata">
+                      <arrayElements
+                        arrayElementCount="2">
+                        <arrayElement
+                          dataType="System.String"><![CDATA[SC_5bbd16b210c94addbbf785cdbce25e8e.dll]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAOS1PWkAAAAAAAAAAOAAIiALATAAABoAAAAIAAAAAAAASjkA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAPg4AABPAAAAAEAAAFAEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAUBkAAAAgAAAAGgAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAFAEAAAAQAAAAAYAAAAcAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAIgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAAs
+OQAAAAAAAEgAAAACAAUA9CMAAEwUAAABAAAAAAAAAEA4AAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAADoCKBAAAAoCFn0BAAAEKh4CKBEAAAoqbgICewEAAAQXWH0B
+AAAEAwJ7AQAABG8sAAAGKh4CKDAAAAYqKgIDBAUoEgAACipSAnsTAAAKAnsUAAAKFpRvFQAACioi
+AhYoFgAACipSAnsTAAAKAnsUAAAKF5RvFQAACioiAhcoFgAACipSAnsTAAAKAnsUAAAKGJRvFQAA
+CioiAhgoFgAACipSAnsTAAAKAnsUAAAKGZRvFQAACioiAhkoFgAACipSAnsTAAAKAnsUAAAKGpRv
+FQAACioiAhooFgAACipSAnsTAAAKAnsUAAAKG5RvFQAACioiAhsoFgAACipSAnsTAAAKAnsUAAAK
+HJRvFQAACioiAhwoFgAACipSAnsTAAAKAnsUAAAKHZRvFQAACioiAh0oFgAACipSAnsTAAAKAnsU
+AAAKHpRvFwAACioiAh4oFgAACipWAnsTAAAKAnsUAAAKHwmUbxUAAAoqJgIfCSgWAAAKKlYCexMA
+AAoCexQAAAofCpRvFQAACiomAh8KKBYAAAoqVgJ7EwAACgJ7FAAACh8LlG8VAAAKKiYCHwsoFgAA
+CipWAnsTAAAKAnsUAAAKHwyUbxUAAAoqJgIfDCgWAAAKKlYCexMAAAoCexQAAAofDZRvFQAACiom
+Ah8NKBYAAAoqVgJ7EwAACgJ7FAAACh8OlG8VAAAKKiYCHw4oFgAACipWAnsTAAAKAnsUAAAKHw+U
+bxUAAAoqJgIfDygWAAAKKlYCexMAAAoCexQAAAofEJRvFwAACiomAh8QKBYAAAoqVgJ7EwAACgJ7
+FAAACh8RlG8VAAAKKiYCHxEoFgAACipWAnsTAAAKAnsUAAAKHxKUbxcAAAoqJgIfEigWAAAKKj4C
+HxMDjBoAAAEoGAAACipeAywJAh8TKBkAAAoqcgEAAHBzGgAACnoeAigbAAAKKh4CKBwAAAoqfgIo
+HQAACgICczQAAAZ9AgAABAICczUAAAZ9AwAABCqSBHKeAABwGm8eAAAKLBUCBQIDKB8AAAoOBHMF
+AAAGbzIAAAYqSisHAgNvMwAABgNvLgAABi3xKgYqOgIoIAAACgIDfQQAAAQqOgIoIAAACgIDfQUA
+AAQqHgIoIAAACiqufgYAAAQtHnKuAABw0AcAAAIoIQAACm8iAAAKcyMAAAqABgAABH4GAAAEKhp+
+BwAABCoeAoAHAAAEKhp+CAAABCoeAigkAAAKKi5zOwAABoAIAAAEKgAAQlNKQgEAAQAAAAAADAAA
+AHY0LjAuMzAzMTkAAAAABQBsAAAAIAkAACN+AACMCQAA0AcAACNTdHJpbmdzAAAAAFwRAAAgAQAA
+I1VTAHwSAAAQAAAAI0dVSUQAAACMEgAAwAEAACNCbG9iAAAAAAAAAAIAAAFXFaABCQEAAAD6ATMA
+FgAAAQAAACAAAAAIAAAACAAAADwAAAAPAAAAJAAAABAAAAADAAAAKwAAACwAAAABAAAABAAAAAEA
+AAAAAIwDAQAAAAAABgCDAgcGBgAXAwcGBgDPAfQFDwB7BgAABgD8AT4FBgBmAj4FBgBHAj4FBgD+
+Aj4FBgCjAj4FBgC8Aj4FBgATAj4FBgAuAlIDCgDXAhwBCgC7BRwBDgCsBRwBCgCHBRwBCgBBBxwB
+BgAEB+sEBgCyAfQFBgDMBScGBgB7BSkFEgCCAXYDEgDjAXYDEgBqARQFBgCXAQcGBgAgAOsEBgBQ
+BesEBgBvA+sEBgBqBesEBgA9AesEBgDuAOsEBgDGBz4FAAAAAJYAAAAAAAEAAQABABAACQUAABAA
+AQABAAEAEACfBQAAOQACAAUAAQAQACMHAABFAAIAMAABABAA+AYAAEkABAA0AAEAEAC5BgAASQAF
+ADUAAAAQAC4GigZJAAYANgAAARAA6AaKBmEACAA6AAEA3AV6AAYA+AZ9AAYAuQaBAAEAMQeFAAEA
+MQeFABEA/QSJABEAWgGNABEA1ACRAFAgAAAAAMYANQMGAAEAXyAAAAAAxgBAAwYAAQBnIAAAAADG
+AKMHlQABAIMgAAAAAIYY5wUGAAIAiyAAAAAAhhjnBRsAAgCWIAAAAACGCBEAmwAFAKsgAAAAAIYI
+0gNCAAUAtCAAAAAAhggmAJsABQDJIAAAAACGCO8DQgAFANIgAAAAAIYINQCbAAUA5yAAAAAAhggM
+BEIABQDwIAAAAACGCEQAmwAFAAUhAAAAAIYIKQRCAAUADiEAAAAAhghTAJsABQAjIQAAAACGCEYE
+QgAFACwhAAAAAIYIYgCbAAUAQSEAAAAAhghjBEIABQBKIQAAAACGCHEAmwAFAF8hAAAAAIYIgARC
+AAUAaCEAAAAAhgiAAJsABQB9IQAAAACGCJ0EQgAFAIYhAAAAAIYIjwCfAAUAmyEAAAAAhgi6BEIA
+BQCkIQAAAACGCAEAmwAFALohAAAAAIYItANCAAUAxCEAAAAAhggJAJsABQDaIQAAAACGCMMDQgAF
+AOQhAAAAAIYIGACbAAUA+iEAAAAAhgjgA0IABQAEIgAAAACGCC0AmwAFABoiAAAAAIYI/QNCAAUA
+JCIAAAAAhgg8AJsABQA6IgAAAACGCBoEQgAFAEQiAAAAAIYISwCbAAUAWiIAAAAAhgg3BEIABQBk
+IgAAAACGCFoAmwAFAHoiAAAAAIYIVARCAAUAhCIAAAAAhghpAJ8ABQCaIgAAAACGCHEEQgAFAKQi
+AAAAAIYIeACbAAUAuiIAAAAAhgiOBEIABQDEIgAAAACGCIcAnwAFANoiAAAAAIYIqwRCAAUA5CIA
+AAAAhgjyBAEABQD0IgAAAACGCMgEowAGAAwjAAAAAIYAugdCAAcAFCMAAAAAhgALB0IABwAcIwAA
+AACGGOcFBgAHADwjAAAAAMYAlgeoAAcAYSMAAAAAxgGPB5UACwB0IwAAAADGAaMHlQAMAHYjAAAA
+AIYY5wWyAA0AhSMAAAAAhhjnBbIADgCUIwAAAACDGOcFBgAPAJwjAAAAAJMIyAW4AA8AyCMAAAAA
+kwhCAb0ADwDPIwAAAACTCE4BwgAPANcjAAAAAJYIFwfIABAA3iMAAAAAhhjnBQYAEADmIwAAAACR
+GO0FzQAQAAAAAQC+BwAAAQDBBQAAAgDDBgAAAwCVBQAAAQBMAwAAAQBMAwAAAQCfAAAAAgASAQAA
+AwDBBQAABACVBQAAAQDBBQAAAQC+BwAAAQBHBwAAAQBHBwAAAQBMAwkA5wUBABEA5wUGABkA5wUK
+ACkA5wUQADEA5wUQADkA5wUQAEEA5wUQAEkA5wUQAFEA5wUQAFkA5wUQAGEA5wUQAGkA5wUGAJkA
+5wUGALkA5wUVAMkA5wUGAIkANQMGAIkAQAMGAHEA5wUbAHEAwQUlAHEAwwYpAHkAbAMtAHEA0wQy
+AHkA5AA3AHEA4gQ8AHEA2gQBANkA5wUQAHEAugdCAHEACwdCAIkA5wUGAOEA8QZGAIkA1wZNAJEA
+5wUGAPEAAAFTAPEAwgdaAKEA5wVgAMEA5wUGAC4ACwDwAC4AEwD5AC4AGwAYAS4AIwAhAS4AKwBK
+AS4AMwBKAS4AOwBQAS4AQwAhAS4ASwBYAS4AUwBKAS4AWwBxAUMAYwC7AeMAawC7AQEBewC7ASkF
+cwAYAUkFcwAYAQMAAQAHACkACAArAAAAFQDRAAAA1gPVAAAAKgDRAAAA8wPVAAAAOQDRAAAAEATV
+AAAASADRAAAALQTVAAAAVwDRAAAASgTVAAAAZgDRAAAAZwTVAAAAdQDRAAAAhATVAAAAhADRAAAA
+oQTVAAAAkwDZAAAAvgTVAAAABQDRAAAAuAPVAAAADQDRAAAAxwPVAAAAHADRAAAA5APVAAAAMQDR
+AAAAAQTVAAAAQADRAAAAHgTVAAAATwDRAAAAOwTVAAAAXgDRAAAAWATVAAAAbQDZAAAAdQTVAAAA
+fADRAAAAkgTVAAAAiwDZAAAArwTVAAAA9gTdAAAAzATVAAAAzAXhAAAAYgHmAAAAGwfrAAIABgAD
+AAIABwAFAAIACAAHAAIACQAJAAIACgALAAIACwANAAIADAAPAAIADQARAAIADgATAAIADwAVAAIA
+EAAXAAIAEQAZAAIAEgAbAAIAEwAdAAIAFAAfAAIAFQAhAAIAFgAjAAIAFwAlAAIAGAAnAAIAGQAp
+AAIAGgArAAIAGwAtAAIAHAAvAAIAHQAxAAIAHgAzAAIAHwA1AAIAIAA3AAIAIQA5AAIAIgA7AAIA
+IwA9AAIAJAA/AAIAJQBBAAIAJgBDAAIAJwBFAAIAKABHAAIAKQBJAAIAKgBLAAIAKwBNAAEALABP
+AAEALQBRAAIANwBTAAIAOABVAAEAOQBVAAIAOgBXAASAAAABAAAAAAAAAAAAAAAAALAAAAAEAAAA
+AAAAAAAAAABoAKcAAAAAABEAAAAAAAAAAAAAAHEAUQcAAAAAEQAAAAAAAAAAAAAAcQBuBwAAAAAE
+AAAAAAAAAAAAAABoAOsEAAAAAAAAAAABAAAAOAYAAAAAAAAAZ2V0X0YxMABnZXRfRjExAGdldF9G
+MQBnZXRfRjEyAEludDMyAGdldF9GMgBnZXRfRjEzAGdldF9GMwBnZXRfRjE0AGdldF9GNABnZXRf
+RjE1AGdldF9GNQBnZXRfRjE2AGdldF9GNgBnZXRfRjE3AGdldF9GNwBnZXRfRjE4AGdldF9GOABn
+ZXRfRjE5AGdldF9GOQA8TW9kdWxlPgBJbnB1dElEAG1zY29ybGliAFNDXzViYmQxNmIyMTBjOTRh
+ZGRiYmY3ODVjZGJjZTI1ZThlAGRlZmF1bHRJbnN0YW5jZQBHZXREb3VibGUAUnVudGltZVR5cGVI
+YW5kbGUAR2V0VHlwZUZyb21IYW5kbGUASW5wdXROYW1lAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRz
+LlBpcGVsaW5lAFR5cGUAZ2V0X0N1bHR1cmUAc2V0X0N1bHR1cmUAcmVzb3VyY2VDdWx0dXJlAEFw
+cGxpY2F0aW9uU2V0dGluZ3NCYXNlAEVkaXRvckJyb3dzYWJsZVN0YXRlAENvbXBpbGVyR2VuZXJh
+dGVkQXR0cmlidXRlAERlYnVnZ2VyTm9uVXNlckNvZGVBdHRyaWJ1dGUARGVidWdnYWJsZUF0dHJp
+YnV0ZQBFZGl0b3JCcm93c2FibGVBdHRyaWJ1dGUAQXNzZW1ibHlUaXRsZUF0dHJpYnV0ZQBBc3Nl
+bWJseVRyYWRlbWFya0F0dHJpYnV0ZQBUYXJnZXRGcmFtZXdvcmtBdHRyaWJ1dGUAQXNzZW1ibHlD
+b25maWd1cmF0aW9uQXR0cmlidXRlAEFzc2VtYmx5RGVzY3JpcHRpb25BdHRyaWJ1dGUAQ29tcGls
+YXRpb25SZWxheGF0aW9uc0F0dHJpYnV0ZQBBc3NlbWJseVByb2R1Y3RBdHRyaWJ1dGUAQXNzZW1i
+bHlDb3B5cmlnaHRBdHRyaWJ1dGUAU1NJU1NjcmlwdENvbXBvbmVudEVudHJ5UG9pbnRBdHRyaWJ1
+dGUAQXNzZW1ibHlDb21wYW55QXR0cmlidXRlAFJ1bnRpbWVDb21wYXRpYmlsaXR5QXR0cmlidXRl
+AFByZUV4ZWN1dGUAUG9zdEV4ZWN1dGUAdmFsdWUAU3lzdGVtLlJ1bnRpbWUuVmVyc2lvbmluZwBH
+ZXRTdHJpbmcAU3lzdGVtLkNvbXBvbmVudE1vZGVsAFNDXzViYmQxNmIyMTBjOTRhZGRiYmY3ODVj
+ZGJjZTI1ZThlLmRsbABnZXRfRjEwX0lzTnVsbABnZXRfRjExX0lzTnVsbABnZXRfRjFfSXNOdWxs
+AGdldF9GMTJfSXNOdWxsAGdldF9GMl9Jc051bGwAZ2V0X0YxM19Jc051bGwAZ2V0X0YzX0lzTnVs
+bABnZXRfRjE0X0lzTnVsbABnZXRfRjRfSXNOdWxsAGdldF9GMTVfSXNOdWxsAGdldF9GNV9Jc051
+bGwAZ2V0X0YxNl9Jc051bGwAZ2V0X0Y2X0lzTnVsbABnZXRfRjE3X0lzTnVsbABnZXRfRjdfSXNO
+dWxsAGdldF9GMThfSXNOdWxsAGdldF9GOF9Jc051bGwAZ2V0X0YxOV9Jc051bGwAZ2V0X0Y5X0lz
+TnVsbABzZXRfUm93TnVtX0lzTnVsbABTZXROdWxsAHNldF9JdGVtAFN5c3RlbQBzZXRfUm93TnVt
+AHJlc291cmNlTWFuAFNjcmlwdE1haW4AU3lzdGVtLkNvbmZpZ3VyYXRpb24AU3lzdGVtLkdsb2Jh
+bGl6YXRpb24AU3lzdGVtLlJlZmxlY3Rpb24ASW52YWxpZE9wZXJhdGlvbkV4Y2VwdGlvbgBTdHJp
+bmdDb21wYXJpc29uAEN1bHR1cmVJbmZvAE91dHB1dE5hbWVNYXAAT3V0cHV0TWFwAElucHV0MEJ1
+ZmZlcgBQaXBlbGluZUJ1ZmZlcgBTY3JpcHRCdWZmZXIAZ2V0X1Jlc291cmNlTWFuYWdlcgByb3dD
+b3VudGVyAC5jdG9yAC5jY3RvcgBTeXN0ZW0uRGlhZ25vc3RpY3MAU3lzdGVtLlJ1bnRpbWUuQ29t
+cGlsZXJTZXJ2aWNlcwBTeXN0ZW0uUmVzb3VyY2VzAFNDXzViYmQxNmIyMTBjOTRhZGRiYmY3ODVj
+ZGJjZTI1ZThlLlByb3BlcnRpZXMuUmVzb3VyY2VzLnJlc291cmNlcwBEZWJ1Z2dpbmdNb2RlcwBT
+Q181YmJkMTZiMjEwYzk0YWRkYmJmNzg1Y2RiY2UyNWU4ZS5Qcm9wZXJ0aWVzAFZhcmlhYmxlcwBC
+dWZmZXJDb2x1bW5JbmRleGVzAEdldENvbHVtbkluZGV4ZXMAU2V0dGluZ3MARXF1YWxzAENvbm5l
+Y3Rpb25zAE9iamVjdABFbmRPZlJvd3NldABnZXRfRGVmYXVsdABVc2VyQ29tcG9uZW50AFBhcmVu
+dENvbXBvbmVudABTY3JpcHRDb21wb25lbnQATWljcm9zb2Z0LlNxbFNlcnZlci5UeFNjcmlwdABN
+aWNyb3NvZnQuU3FsU2VydmVyLlBpcGVsaW5lSG9zdABJbnB1dDBfUHJvY2Vzc0lucHV0AElucHV0
+MF9Qcm9jZXNzSW5wdXRSb3cATmV4dFJvdwBnZXRfQXNzZW1ibHkAAACAm0kAcwBOAHUAbABsACAA
+cAByAG8AcABlAHIAdAB5ACAAYwBhAG4AbgBvAHQAIABiAGUAIABzAGUAdAAgAHQAbwAgAEYAYQBs
+AHMAZQAuACAAQQBzAHMAaQBnAG4AIABhACAAdgBhAGwAdQBlACAAdABvACAAdABoAGUAIABjAG8A
+bAB1AG0AbgAgAGkAbgBzAHQAZQBhAGQALgAAD0kAbgBwAHUAdAAgADAAAHFTAEMAXwA1AGIAYgBk
+ADEANgBiADIAMQAwAGMAOQA0AGEAZABkAGIAYgBmADcAOAA1AGMAZABiAGMAZQAyADUAZQA4AGUA
+LgBQAHIAbwBwAGUAcgB0AGkAZQBzAC4AUgBlAHMAbwB1AHIAYwBlAHMAACYNsL3JZD9Hs/9Rwvl4
+Dx0ABCABAQgDIAABBSABARERBCABAQ4FIAEBEVkJIAMBEj0dCBJBAwYSPQMGHQgEIAEOCAQgAQII
+BCABDQgFIAIBCBwDIAACBiACAg4RdQUgAR0ICAYAARJ5EX0FIAASgIEHIAIBDhKAgQi3elxWGTTg
+iQiJhF3NgIDMkQIGCAMGEhQDBhIYAwYSRQMGElEDBhJVAwYSIAUgAQESDAMgAA4DIAANBCABAQIJ
+IAQBCA4SPRJBBSABARJFBAAAElEEAAASVQUAAQESVQQAABIgAwAAAQMoAA4DKAACAygADQMoAAgE
+CAASUQQIABJVBAgAEiAIAQAIAAAAAAAeAQABAFQCFldyYXBOb25FeGNlcHRpb25UaHJvd3MBCAEA
+AgAAAAAAKAEAI1NDXzViYmQxNmIyMTBjOTRhZGRiYmY3ODVjZGJjZTI1ZThlAAAFAQAAAAAHAQAC
+SFAAABgBABNDb3B5cmlnaHQgQCBIUCAyMDI1AABJAQAaLk5FVEZyYW1ld29yayxWZXJzaW9uPXY0
+LjcBAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEi5ORVQgRnJhbWV3b3JrIDQuNwQBAAAAtAAAAM7K
+774BAAAAkQAAAGxTeXN0ZW0uUmVzb3VyY2VzLlJlc291cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVy
+c2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkz
+NGUwODkjU3lzdGVtLlJlc291cmNlcy5SdW50aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQ
+QURQtAAAACA5AAAAAAAAAAAAADo5AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsOQAAAAAAAAAA
+AAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAAAAD/JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAASAAA
+AFhAAAD0AwAAAAAAAAAAAAD0AzQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAAAAAA
+vQTv/gAAAQAAAAEAAAAAAAAAAQAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQAAAAB
+AFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBuAAAA
+AAAAALAEVAMAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAAMAMAAAEAMAAwADAAMAAw
+ADQAYgAwAAAAGgABAAEAQwBvAG0AbQBlAG4AdABzAAAAAAAAACYAAwABAEMAbwBtAHAAYQBuAHkA
+TgBhAG0AZQAAAAAASABQAAAAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAA
+AAAAUwBDAF8ANQBiAGIAZAAxADYAYgAyADEAMABjADkANABhAGQAZABiAGIAZgA3ADgANQBjAGQA
+YgBjAGUAMgA1AGUAOABlAAAAMAAIAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAu
+ADAALgAwAAAAcAAoAAEASQBuAHQAZQByAG4AYQBsAE4AYQBtAGUAAABTAEMAXwA1AGIAYgBkADEA
+NgBiADIAMQAwAGMAOQA0AGEAZABkAGIAYgBmADcAOAA1AGMAZABiAGMAZQAyADUAZQA4AGUALgBk
+AGwAbAAAAEwAFAABAEwAZQBnAGEAbABDAG8AcAB5AHIAaQBnAGgAdAAAAEMAbwBwAHkAcgBpAGcA
+aAB0ACAAQAAgAEgAUAAgADIAMAAyADUAAAAqAAEAAQBMAGUAZwBhAGwAVAByAGEAZABlAG0AYQBy
+AGsAcwAAAAAAAAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABlAG4AYQBtAGUAAABTAEMA
+XwA1AGIAYgBkADEANgBiADIAMQAwAGMAOQA0AGEAZABkAGIAYgBmADcAOAA1AGMAZABiAGMAZQAy
+ADUAZQA4AGUALgBkAGwAbAAAAGgAJAABAFAAcgBvAGQAdQBjAHQATgBhAG0AZQAAAAAAUwBDAF8A
+NQBiAGIAZAAxADYAYgAyADEAMABjADkANABhAGQAZABiAGIAZgA3ADgANQBjAGQAYgBjAGUAMgA1
+AGUAOABlAAAANAAIAAEAUAByAG8AZAB1AGMAdABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgAwAC4A
+MAAAADgACAABAEEAcwBzAGUAbQBiAGwAeQAgAFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADAALgAw
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAMAAAATDkAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
+                      </arrayElements>
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                      name="VSTAProjectName"
+                      typeConverter="NOTBROWSABLE">SC_5bbd16b210c94addbbf785cdbce25e8e</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the programming language used by the script."
+                      name="ScriptLanguage"
+                      typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">CSharp</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a comma-separated list of read-only variables."
+                      name="ReadOnlyVariables"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a comma-separated list of read/write variables."
+                      name="ReadWriteVariables"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg"></property>
+                    <property
+                      dataType="System.String"
+                      description="List of breakpoints present on the script."
+                      isArray="true"
+                      name="BreakpointCollection"
+                      typeConverter="NOTBROWSABLE">
+                      <arrayElements
+                        arrayElementCount="0" />
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Checksum to match component metedata against compiled codes."
+                      name="MetadataChecksum140"
+                      typeConverter="NOTBROWSABLE">87</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0]"
+                      hasSideEffects="true"
+                      name="Input 0">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F1"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F1]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F2"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F2]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F3]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F3"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F3]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F4]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F4"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F4]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F5]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F5"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F5]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F6]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F6"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F6]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F7]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F7"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F7]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F8]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F8"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F8]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F9]"
+                          cachedDataType="r8"
+                          cachedName="F9"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F9]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F10]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F10"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F10]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F11]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F11"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F11]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F12]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F12"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F12]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F13]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F13"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F13]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F14]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F14"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F14]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F15]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F15"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F15]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F16]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F16"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F16]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F17]"
+                          cachedDataType="r8"
+                          cachedName="F17"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F17]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F18]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F18"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F18]" />
+                        <inputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0].Columns[F19]"
+                          cachedDataType="r8"
+                          cachedName="F19"
+                          lineageId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output].Columns[F19]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Loop sheets\Load current sheet\Script Component.Outputs[Output 0]"
+                      name="Output 0"
+                      synchronousInputId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Loop sheets\Load current sheet\Script Component.Outputs[Output 0].Columns[RowNum]"
+                          dataType="i4"
+                          lineageId="Package\Loop sheets\Load current sheet\Script Component.Outputs[Output 0].Columns[RowNum]"
+                          name="RowNum" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Loop sheets\Load current sheet.Paths[Derived Column Output]"
+                  endId="Package\Loop sheets\Load current sheet\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\Loop sheets\Load current sheet\Derived Column.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\Loop sheets\Load current sheet.Paths[Excel Source Output]"
+                  endId="Package\Loop sheets\Load current sheet\Script Component.Inputs[Input 0]"
+                  name="Excel Source Output"
+                  startId="Package\Loop sheets\Load current sheet\Excel Source.Outputs[Excel Source Output]" />
+                <path
+                  refId="Package\Loop sheets\Load current sheet.Paths[Output 0]"
+                  endId="Package\Loop sheets\Load current sheet\Derived Column.Inputs[Derived Column Input]"
+                  name="Output 0"
+                  startId="Package\Loop sheets\Load current sheet\Script Component.Outputs[Output 0]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{EC97A8E7-FDE3-48EE-9BED-6385D49343A8}"
+          DTS:ObjectName="{EC97A8E7-FDE3-48EE-9BED-6385D49343A8}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::SheetName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{704183DD-A1AF-4F58-998E-5683C6490E24}"
+      DTS:From="Package\Get sheet names"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Loop sheets" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157.6,41.6"
+          Id="Package\Get sheet names"
+          TopLeft="212.142857594454,145.294117519703" />
+        <NodeLayout
+          Size="167.2,41.6"
+          Id="Package\Loop sheets\Load current sheet"
+          TopLeft="41.3714290579971,33.3999997834949" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="265.6,129.6"
+          Size="265.6,172.8"
+          Id="Package\Loop sheets"
+          TopLeft="150.714286035117,249.294117428543" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="287.228571814785,186.894117519703">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,62.39999990884"
+              Start="0,0"
+              End="0,54.89999990884">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.89999990884" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Loop sheets\Load current sheet">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="138.4,41.6"
+          Id="Package\Loop sheets\Load current sheet\Excel Source"
+          TopLeft="138.571428866411,129.235294004367" />
+        <NodeLayout
+          Size="152.8,41.6"
+          Id="Package\Loop sheets\Load current sheet\Derived Column"
+          TopLeft="137.142857434798,324.211764482004" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Loop sheets\Load current sheet\OLE DB Destination"
+          TopLeft="131.428571708348,412.035293890417" />
+        <EdgeLayout
+          Id="Package\Loop sheets\Load current sheet.Paths[Derived Column Output]"
+          TopLeft="215.085714571573,365.811764482004">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.2235294084132"
+              Start="0,0"
+              End="0,38.7235294084132">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.7235294084132" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Loop sheets\Load current sheet\Script Component"
+          TopLeft="129.28571456093,226.176470477637" />
+        <EdgeLayout
+          Id="Package\Loop sheets\Load current sheet.Paths[Excel Source Output]"
+          TopLeft="209.12857171367,170.835294004367">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55.3411764732694"
+              Start="0,0"
+              End="0,47.8411764732694">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.8411764732694" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Loop sheets\Load current sheet.Paths[Output 0]"
+          TopLeft="212.014285997864,267.776470477637">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56.4352940043673"
+              Start="0,0"
+              End="0,48.9352940043673">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.9352940043673" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Loop sheets\Load current sheet\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Loop sheets\Load current sheet\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
